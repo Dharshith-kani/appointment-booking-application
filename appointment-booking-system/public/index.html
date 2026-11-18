@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5A1827">
+ <title>OpenSlot — Open Source Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+  <div id="app">
+    <section class="auth-shell" id="authView">
+      <div class="auth-art">
+        <div class="brand">
+    <span class="brand-mark">O</span>
+    <span>OpenSlot</span>
+</div>
+        <div class="auth-copy">
+          <span class="eyebrow">A LITTLE TIME, JUST FOR YOU</span>
+          <h1>Make room<br>for what <em>matters.</em></h1>
+          <p>Thoughtful appointments, beautifully organised. Choose a time that works for you.</p>
+        </div>
+        <div class="auth-bottom">A calmer way to schedule your day.</div>
+      </div>
+      <div class="auth-panel">
+        <div class="mobile-brand brand"><span class="brand-mark">O</span><span>OpenSlot</span></div>
+        <div class="auth-form-wrap">
+          <span class="eyebrow" id="authEyebrow">WELCOME BACK</span>
+          <h2 id="authTitle">Sign in to OpenSlot</h2>
+          <p class="muted" id="authSubtitle">Your time, thoughtfully managed.</p>
+          <form id="authForm">
+            <div class="field" id="nameField" hidden><label for="name">Full name</label><input id="name" autocomplete="name" placeholder="Your name"></div>
+            <div class="field"><label for="email">Email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+            <div class="field"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"></div>
+            <button class="btn btn-primary full" id="authSubmit">Sign in <span>→</span></button>
+          </form>
+          <p class="switch-auth" id="switchAuth">New to OpenSlot? <button class="text-btn" id="toggleAuth">Create an account</button></p>
+          <div class="demo-note">Admin demo: <b>admin@openslot.com</b> · <b>Admin@123</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboardView" class="dashboard" hidden>
+      <aside class="sidebar">
+        <div class="brand sidebar-brand"><span class="brand-mark">O</span><span>OpenSlot</span></div>
+        <div class="side-caption">WORKSPACE</div>
+        <nav id="navLinks">
+          <button class="nav-link active" data-page="book"><span>▦</span> Book an appointment</button>
+          <button class="nav-link" data-page="history"><span>◷</span> My appointments</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-card"><span class="help-icon">✳</span><b>Need a moment?</b><p>Your schedule should work around you.</p></div>
+          <button class="profile" id="profileButton"><span class="avatar" id="avatar">D</span><span><b id="profileName">Guest</b><small id="profileRole">Member</small></span><span class="profile-more">···</span></button>
+          <button class="logout" id="logoutBtn">↪ &nbsp; Sign out</button>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div><div class="breadcrumb">Workspace <span>/</span> <b id="pageCrumb">Book an appointment</b></div><div class="top-greeting" id="topGreeting">Good evening</div></div>
+          <div class="top-actions"><span class="today-label" id="todayLabel"></span><span class="top-avatar" id="topAvatar">D</span></div>
+        </header>
+        <div id="userBookPage" class="page">
+          <div class="page-heading"><div><span class="eyebrow">YOUR NEXT CHAPTER</span><h1>Book an appointment</h1><p class="muted">Choose a date and time that feels right for you.</p></div><div class="heading-flower">✳</div></div>
+          <div class="booking-layout">
+            <section class="panel calendar-panel">
+              <div class="panel-heading"><div><h3>Select a date</h3><p class="muted small">Available dates are highlighted</p></div><div class="calendar-nav"><button id="prevMonth" aria-label="Previous month">‹</button><b id="monthLabel"></b><button id="nextMonth" aria-label="Next month">›</button></div></div>
+              <div class="weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+              <div id="calendarGrid" class="calendar-grid"></div>
+              <div class="calendar-legend"><span><i class="legend-dot"></i> Available</span><span><i class="legend-selected"></i> Selected</span></div>
+            </section>
+            <section class="panel slots-panel">
+              <div class="panel-heading"><div><h3>Available times</h3><p class="muted small" id="selectedDateText">Select a date to view times</p></div><span class="time-zone">IST · UTC+5:30</span></div>
+              <div id="slotList" class="slot-list"><div class="empty-state">Choose a highlighted date to see available slots.</div></div>
+              <div class="booking-summary" id="bookingSummary" hidden>
+                <div><small>SELECTED TIME</small><b id="summaryTime">—</b></div>
+                <button class="btn btn-primary" id="continueBooking">Continue <span>→</span></button>
+              </div>
+            </section>
+          </div>
+          <div class="below-note"><span>✦</span><div><b>A note about your booking</b><p>Appointments are submitted as pending and confirmed after admin approval. You can manage them in My appointments.</p></div></div>
+        </div>
+        <div id="userHistoryPage" class="page" hidden>
+          <div class="page-heading"><div><span class="eyebrow">YOUR SCHEDULE</span><h1>My appointments</h1><p class="muted">Keep track of your upcoming plans and past visits.</p></div></div>
+          <div class="panel table-panel"><div class="panel-heading"><div><h3>Booking history</h3><p class="muted small">All your appointment requests in one place</p></div><span class="count-pill" id="historyCount">0 bookings</span></div><div id="historyList"></div></div>
+        </div>
+        <div id="adminPage" class="page" hidden>
+          <div class="page-heading"><div><span class="eyebrow">CONTROL CENTRE</span><h1>Admin overview</h1><p class="muted">Manage availability and keep appointments moving.</p></div><span class="admin-tag">ADMIN</span></div>
+          <div class="stats-grid">
+            <div class="stat-card"><span>Total appointments</span><b id="statTotal">0</b><small>All requests</small></div>
+            <div class="stat-card"><span>Awaiting approval</span><b id="statPending">0</b><small>Needs your attention</small></div>
+            <div class="stat-card"><span>Approved</span><b id="statApproved">0</b><small>Confirmed bookings</small></div>
+            <div class="stat-card"><span>Open time slots</span><b id="statSlots">0</b><small>Upcoming availability</small></div>
+          </div>
+          <div class="admin-grid">
+            <section class="panel add-slot-panel"><div class="panel-heading"><div><h3>Add availability</h3><p class="muted small">Create a date and time slot</p></div><span class="panel-icon">＋</span></div>
+              <form id="slotForm"><div class="field"><label for="slotDate">Date</label><input type="date" id="slotDate" required></div><div class="two-fields"><div class="field"><label for="startTime">Start time</label><input type="time" id="startTime" required value="09:00"></div><div class="field"><label for="endTime">End time</label><input type="time" id="endTime" required value="09:30"></div></div><button class="btn btn-primary full">Add time slot <span>＋</span></button></form>
+            </section>
+            <section class="panel"><div class="panel-heading"><div><h3>Appointment requests</h3><p class="muted small">Review and update booking status</p></div><button class="btn btn-outline btn-sm" id="refreshAdmin">Refresh ↻</button></div><div id="adminAppointments"></div></section>
+          </div>
+          <section class="panel availability-panel"><div class="panel-heading"><div><h3>Upcoming availability</h3><p class="muted small">Remove slots that are no longer available</p></div></div><div id="adminSlots"></div></section>
+        </div>
+      </main>
+    </section>
+  </div>
+  <div class="modal-backdrop" id="bookingModal" hidden>
+    <div class="modal">
+      <button class="modal-close" id="closeModal">×</button><span class="eyebrow">ALMOST THERE</span><h2>Confirm your request</h2><p class="muted">Add a short note so we can prepare for your appointment.</p>
+      <div class="modal-summary"><span>DATE & TIME</span><b id="modalDateTime"></b></div>
+      <form id="confirmForm"><div class="field"><label for="reason">What is this appointment for? <span class="muted">(optional)</span></label><textarea id="reason" rows="3" placeholder="A few details to help us prepare..."></textarea></div><button class="btn btn-primary full">Request appointment <span>→</span></button></form>
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
